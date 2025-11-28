@@ -10,6 +10,142 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="Css/style.css">
+
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .modal-body p {
+            margin-bottom: 1rem;
+        }
+
+        .payment-info {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .payment-info strong {
+            color: #ff6b6b;
+        }
+
+        .payment-info ol {
+            margin-left: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .payment-info li {
+            margin-bottom: 0.5rem;
+        }
+
+        .proceed-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .proceed-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .payment-card {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -186,7 +322,7 @@
                     <div class="product-info">
                         <span class="combo-badge">COMBO 2</span>
                         <div class="product-name">Burger + Coke</div>
-                        <div class="product-description">Burger with refreshing ice tea</div>
+                        <div class="product-description">Burger with refreshing Coke</div>
                         <div class="product-price">₱65</div>
                     </div>
                 </div>
@@ -229,24 +365,121 @@
         <p style="text-align: center; color: #666; margin-bottom: 1rem;">We accept various digital payment methods for
             your convenience</p>
         <div class="payment-grid">
-            <div class="payment-card">
-                <div class="payment-icon"><img class="" src="assets/gcash.jpg" alt=""></div>
+            <div class="payment-card" onclick="openModal('gcash')">
+                <div class="payment-icon"><img class="" src="assets/gcash.jpg" alt="GCash"></div>
                 <div class="payment-name">GCash</div>
             </div>
-            <div class="payment-card">
-                <div class="payment-icon"><img src="assets/paymaya.png" alt=""></div>
+            <div class="payment-card" onclick="openModal('paymaya')">
+                <div class="payment-icon"><img src="assets/paymaya.png" alt="PayMaya"></div>
                 <div class="payment-name">PayMaya</div>
             </div>
-            <div class="payment-card">
+            <div class="payment-card" onclick="openModal('credit')">
                 <div class="payment-icon">💳</div>
                 <div class="payment-name">Credit Card</div>
             </div>
-            <div class="payment-card">
+            <div class="payment-card" onclick="openModal('bank')">
                 <div class="payment-icon">🏧</div>
                 <div class="payment-name">Bank Transfer</div>
             </div>
         </div>
     </section>
+
+    <!-- GCash Modal -->
+    <div id="gcash-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">💰 GCash Payment</h3>
+                <button class="close-btn" onclick="closeModal('gcash')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>You've selected <strong>GCash</strong> as your payment method.</p>
+                <div class="payment-info">
+                    <p><strong>Steps to pay:</strong></p>
+                    <ol>
+                        <li>Open your GCash app</li>
+                        <li>Scan the QR code or enter the merchant number</li>
+                        <li>Enter the payment amount</li>
+                        <li>Confirm the transaction</li>
+                        <li>Send screenshot to our Facebook page</li>
+                    </ol>
+                </div>
+                <button class="proceed-btn"
+                    onclick="alert('Please contact us via Facebook to complete your GCash payment!')">Proceed to
+                    Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PayMaya Modal -->
+    <div id="paymaya-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📱 PayMaya Payment</h3>
+                <button class="close-btn" onclick="closeModal('paymaya')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>You've selected <strong>PayMaya</strong> as your payment method.</p>
+                <div class="payment-info">
+                    <p><strong>Steps to pay:</strong></p>
+                    <ol>
+                        <li>Open your PayMaya app</li>
+                        <li>Select "Pay" or scan QR code</li>
+                        <li>Enter the payment amount</li>
+                        <li>Confirm the transaction</li>
+                        <li>Send screenshot to our Facebook page</li>
+                    </ol>
+                </div>
+                <button class="proceed-btn"
+                    onclick="alert('Please contact us via Facebook to complete your PayMaya payment!')">Proceed to
+                    Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Credit Card Modal -->
+    <div id="credit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">💳 Credit Card Payment</h3>
+                <button class="close-btn" onclick="closeModal('credit')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>You've selected <strong>Credit Card</strong> as your payment method.</p>
+                <div class="payment-info">
+                    <p><strong>We accept:</strong></p>
+                    <p>Visa, Mastercard, American Express, JCB</p>
+                    <p style="margin-top: 1rem;">Please contact us via Facebook to arrange credit card payment. Your
+                        payment information is secured with encryption.</p>
+                </div>
+                <button class="proceed-btn"
+                    onclick="window.open('https://www.facebook.com/profile.php?id=61584043634137', '_blank')">Contact Us
+                    on Facebook</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Transfer Modal -->
+    <div id="bank-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🏧 Bank Transfer Payment</h3>
+                <button class="close-btn" onclick="closeModal('bank')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>You've selected <strong>Bank Transfer</strong> as your payment method.</p>
+                <div class="payment-info">
+                    <p><strong>Please contact us via Facebook for bank details:</strong></p>
+                    <p style="margin-top: 1rem;">We'll provide you with our account information for secure bank
+                        transfer.</p>
+                    <p style="margin-top: 0.5rem;"><em>Please use your order number as reference and send proof of
+                            payment to our Facebook page.</em></p>
+                </div>
+                <button class="proceed-btn"
+                    onclick="window.open('https://www.facebook.com/profile.php?id=61584043634137', '_blank')">Contact Us
+                    on Facebook</button>
+            </div>
+        </div>
+    </div>
 
     <section class="section" id="about">
         <h2 class="section-title">🍴 About Us</h2>
@@ -299,12 +532,47 @@
     </footer>
 
     <script>
+        // Payment Modal Functions
+        function openModal(type) {
+            const modal = document.getElementById(type + '-modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(type) {
+            const modal = document.getElementById(type + '-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+
+        // Feedback Form
         document.getElementById('feedbackForm').addEventListener('submit', function (e) {
             e.preventDefault();
             alert('Thank you for your feedback! We appreciate you taking the time to share your thoughts with us. 😊');
             this.reset();
         });
 
+        // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
